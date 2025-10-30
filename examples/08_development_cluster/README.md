@@ -37,4 +37,4 @@ resource "mongodbatlas_project" "this" {
 }
 ```
 
-- You can use this and replace the `var.project_id` with `mongodbatlas_project.this.project_id` in the [main.tf](./main.tf) file.
+- You can use this and replace the `var.project_id` with `mongodbatlas_project.this.project_id` in the [main.tf](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.0.5/examples/08_development_cluster/main.tf) file.
