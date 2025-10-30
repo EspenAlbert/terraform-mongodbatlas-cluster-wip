@@ -1,5 +1,5 @@
 name: Release
-
+run-name: 'Release ${{ inputs.version }}'
 on:
   workflow_dispatch:
     inputs:
@@ -63,7 +63,7 @@ jobs:
         uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048  # v2.2.0
         with:
           tag_name: ${{ inputs.version }}
-          name: Release ${{ inputs.version }}
+          name: ${{ inputs.version }}
           target_commitish: ${{ inputs.version }}  # Point to release branch, not main
           body: |
             ## Release ${{ inputs.version }}
