@@ -75,6 +75,10 @@ gen-readme *args:
 tf-registry-source:
     @uv run python .github/tf_registry_source.py
 
+# Generate release notes for a version (requires commits on GitHub)
+release-notes new_version old_version="":
+    @uv run python .github/release_notes.py {{new_version}} {{old_version}}
+
 # Check if documentation is up-to-date (for CI)
 check-docs:
     uv run --with pyyaml python .github/root_readme.py --check
