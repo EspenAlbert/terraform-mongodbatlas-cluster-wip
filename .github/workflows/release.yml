@@ -38,8 +38,7 @@ jobs:
       
       - name: Push release branch and tag
         run: |
-          git push origin ${{ inputs.version }}
-          git push origin ${{ inputs.version }} --tags
+          git push origin --tags
           
           echo "✓ Release ${{ inputs.version }} pushed successfully"
           echo "  Branch: https://github.com/${{ github.repository }}/tree/${{ inputs.version }}"
