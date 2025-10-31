@@ -95,4 +95,4 @@ terraform plan  # Should show "No changes"
 - Generated configuration is a starting point - manual review is required
 - Some cluster configurations may require additional adjustments
 - Test in a non-production environment first
-- See the [example](../../examples/13_example_import/) for a complete working example
+- See the [example](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.0.9/examples/13_example_import) for a complete working example
