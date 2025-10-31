@@ -7,6 +7,7 @@ This module heavily simplifies the MongoDB Atlas cluster resource.  More granula
 - [Disclaimer](#disclaimer)
 - [Getting Started Examples](#getting-started-examples)
 - [Examples](#examples)
+- [Cluster Topology Configuration](#cluster-topology-configuration)
 - [Requirements](#requirements)
 - [Providers](#providers)
 - [Resources](#resources)
@@ -57,6 +58,12 @@ SHARDED | [Cluster with uniform SHARDED topology using `shard_count`](./examples
 
 <!-- END_TABLES -->
 
+## Cluster Topology Configuration
+
+📖 **For a comprehensive guide on cluster topology configuration, see [Cluster Topology Guide](./docs/cluster_topology.md)**
+
+This module offers two mutually exclusive ways to configure cluster topology. See the [guide](./docs/cluster_topology.md) for detailed explanations, examples, and migration instructions.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -96,7 +103,7 @@ Description: Human-readable label that identifies this cluster, for example: `my
 Type: `string`
 
 ### cluster_type
-Description: Type of the cluster that you want to create. Valid values are `REPLICASET` / `SHARDED` / `GEOSHARDED`
+Description: Type of the cluster that you want to create. Valid values are `REPLICASET` / `SHARDED` / `GEOSHARDED`.
 
 Type: `string`
 
@@ -115,7 +122,7 @@ Description: The simplest way to define your cluster topology:
 
 NOTE:
 - The order in which region blocks are defined in this list determines their priority within each shard or zone.
-  - The first region gets priority 7 (maximum), the next 6, and so on (minimum 0). For more context, see [this](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-creategroupcluster#operation-creategroupcluster-body-application-vnd-atlas-2024-10-23-json-replicationspecs-regionconfigs-priority).
+  - The first region gets priority 7 (maximum), the next 6, and so on (minimum 0). For more context, see [this section of the Atlas Admin API documentation](https://www.mongodb.com/docs/api/doc/atlas-admin-api-v2/operation/operation-creategroupcluster#operation-creategroupcluster-body-application-vnd-atlas-2024-10-23-json-replicationspecs-regionconfigs-priority).
 - Within a zone, shard_numbers are specific to that zone and independent of the shard_number in any other zones.
 - `shard_number` is a variable specific to this module used to group regions within a shard and does not represent an actual value in Atlas.
 
@@ -140,7 +147,7 @@ list(object({
 
 
 ### provider_name
-Description: AWS/AZURE/GCP, setting this on the root level, will use it inside of each `region`
+Description: AWS/AZURE/GCP, setting this on the root level, will use it inside of each `region`.
 
 Type: `string`
 Default: `null`
@@ -602,17 +609,29 @@ Description: List of settings of your configured cluster regions. This array has
 
 ### <a name="output_state_name"></a> [state\_name](#output\_state\_name)
 
-Description: Human-readable label that indicates the current operating condition of this cluster. 
+Description: Human-readable label that indicates the current operating condition of this cluster.
 <!-- END_TF_DOCS -->
 
 ## FAQ
 
 ### Why two options for Cluster Topology?
-- Defining a MongoDB Atlas Cluster using the `replication_spec` variable ([option 2](#cluster-topology-option-2---replication_specs-variables)) requires understanding the full nested schema and knowing which are valid cluster topologies.
-- Therefore, this module introduces the [option 1](#cluster-topology-option-1---regions-variables) `regions` variable and associated variables to simplify the complexity by offering a flat simpler schema.
-- Moreover, the [auto_scaling](#auto_scaling), [auto_scaling_analytics](#auto_scaling_analytics), and [provider_name](#provider_name) help reduce the duplication of config attributes by defining common values at the root level.
-- For `SHARDED` clusters, we allow the [shard_count](#shard_count) to easily add/remove shards to a cluster.
-- We decided to keep the `replication_spec` variable for existing users already familiar with the nested schema and for users migrating from an existing [mongodbatlas_advanced_cluster](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/advanced_cluster) to this module.
+
+The module provides two approaches to accommodate different user needs and migration paths:
+
+**Simplified Configuration (`regions`):**
+- Recommended for new deployments and most use cases
+- Offers a flat, intuitive schema that's easier to understand and maintain
+- Automatically generates the complex `replication_specs` structure
+- Supports auto-scaling with managed instance size properties
+- Includes helpful abstractions like `shard_count` for uniform topologies
+
+**Direct Configuration (`replication_specs`):**
+- Useful for advanced configurations not yet abstracted by simplified variables
+- Provides full control using the native provider schema
+- Easier migration path from existing `mongodbatlas_advanced_cluster` resources
+- Ideal for users already familiar with the resource structure
+
+📖 **For detailed guidance on when to use each approach, see the [Cluster Topology Guide](./docs/cluster_topology.md)**
 
 ### What is the `provider_meta "mongodbatlas"` doing?
 - This block allows us to track the usage of this module by updating the User-Agent of requests to Atlas, for example:
