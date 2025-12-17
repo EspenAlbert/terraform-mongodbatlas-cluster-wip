@@ -37,7 +37,8 @@ Copy and use this code to get started quickly:
 **main.tf**
 ```hcl
 module "cluster" {
-  source  = "terraform-mongodbatlas-modules/cluster/mongodbatlas"
+  source  = "EspenAlbert/cluster-wip/mongodbatlas"
+  version = "v0.10.0"
 
   name         = "multi-region-single-geo"
   project_id   = var.project_id
@@ -62,13 +63,13 @@ output "cluster" {
 ```
 
 **Additional files needed:**
-- [variables.tf](./variables.tf)
-- [versions.tf](./versions.tf)
+- [variables.tf](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.10.0/examples/04_cluster_with_multi_regions_local/variables.tf)
+- [versions.tf](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.10.0/examples/04_cluster_with_multi_regions_local/versions.tf)
 
 
 ## Production Considerations
-- This example enables recommended production settings by default, see the [Production Recommendations (Enabled By Default)](../../README.md#production-recommendations-enabled-by-default) for details.
-- However, some recommendations must be manually set, see the [Production Recommendations (Manually Configured)](../../README.md#production-recommendations-manually-configured) list.
+- This example enables recommended production settings by default, see the [Production Recommendations (Enabled By Default)](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.10.0/README.md#production-recommendations-enabled-by-default) for details.
+- However, some recommendations must be manually set, see the [Production Recommendations (Manually Configured)](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.10.0/README.md#production-recommendations-manually-configured) list.
 
 ## Feedback or Help
 
@@ -88,4 +89,4 @@ resource "mongodbatlas_project" "this" {
 }
 ```
 
-- You can use this and replace the `var.project_id` with `mongodbatlas_project.this.project_id` in the [main.tf](./main.tf) file.
+- You can use this and replace the `var.project_id` with `mongodbatlas_project.this.project_id` in the [main.tf](https://github.com/EspenAlbert/terraform-mongodbatlas-cluster-wip/blob/v0.10.0/examples/04_cluster_with_multi_regions_local/main.tf) file.
